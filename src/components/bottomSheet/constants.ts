@@ -28,9 +28,9 @@ const INITIAL_SNAP_POINT = -999;
 const INITIAL_POSITION = SCREEN_HEIGHT;
 
 // accessibility
-const DEFAULT_ACCESSIBLE = true;
-const DEFAULT_ACCESSIBILITY_LABEL = 'Bottom Sheet';
-const DEFAULT_ACCESSIBILITY_ROLE = 'adjustable';
+const DEFAULT_ACCESSIBLE = false;
+const DEFAULT_ACCESSIBILITY_LABEL = undefined;
+const DEFAULT_ACCESSIBILITY_ROLE = undefined;
 
 export {
   DEFAULT_HANDLE_HEIGHT,
