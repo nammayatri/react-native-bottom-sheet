@@ -430,9 +430,6 @@ function BottomSheetModalComponent<T = any>(
     // internal
     minimize: handleMinimize,
     restore: handleRestore,
-    getSnapPoints: () => {
-      return bottomSheetRef.current?.getSnapPoints() ?? [];
-    }
   }));
   //#endregion
 
