@@ -1,18 +1,18 @@
 import { useEffect } from 'react';
 import {
-  Keyboard,
-  type KeyboardEvent,
-  type KeyboardEventEasing,
-  type KeyboardEventName,
-  Platform,
+    Keyboard,
+    type KeyboardEvent,
+    type KeyboardEventEasing,
+    type KeyboardEventName,
+    Platform,
 } from 'react-native';
 import {
-  runOnUI,
-  useAnimatedReaction,
-  useSharedValue,
-  useWorkletCallback,
+    runOnUI,
+    useAnimatedReaction,
+    useSharedValue,
+    useWorkletCallback,
 } from 'react-native-reanimated';
-import { KEYBOARD_STATE, SCREEN_HEIGHT } from '../constants';
+import { KEYBOARD_STATE } from '../constants';
 
 const KEYBOARD_EVENT_MAPPER = {
   KEYBOARD_SHOW: Platform.select({
@@ -47,8 +47,7 @@ export const useKeyboard = () => {
       state: KEYBOARD_STATE,
       height: number,
       duration: number,
-      easing: KeyboardEventEasing,
-      bottomOffset?: number
+      easing: KeyboardEventEasing 
     ) => {
       if (state === KEYBOARD_STATE.SHOWN && !shouldHandleKeyboardEvents.value) {
         /**
@@ -66,9 +65,6 @@ export const useKeyboard = () => {
        * if keyboard had an bottom offset -android bottom bar-, then
        * we add that offset to the keyboard height.
        */
-      if (bottomOffset) {
-        keyboardHeight.value = keyboardHeight.value + bottomOffset;
-      }
 
       keyboardAnimationDuration.value = duration;
       keyboardAnimationEasing.value = easing;
@@ -87,9 +83,6 @@ export const useKeyboard = () => {
         event.endCoordinates.height,
         event.duration,
         event.easing,
-        SCREEN_HEIGHT -
-          event.endCoordinates.height -
-          event.endCoordinates.screenY
       );
     };
     const handleOnKeyboardHide = (event: KeyboardEvent) => {
