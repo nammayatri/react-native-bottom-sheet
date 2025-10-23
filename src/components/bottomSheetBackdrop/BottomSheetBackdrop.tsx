@@ -9,11 +9,11 @@ import React, {
 import type { ViewProps } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
-  interpolate,
-  useAnimatedStyle,
-  useAnimatedReaction,
-  runOnJS,
   Extrapolation,
+  interpolate,
+  runOnJS,
+  useAnimatedReaction,
+  useAnimatedStyle,
 } from 'react-native-reanimated';
 import { useBottomSheet } from '../../hooks';
 import {
@@ -143,11 +143,7 @@ const BottomSheetBackdropComponent = ({
       accessibilityRole={_providedAccessibilityRole ?? undefined}
       accessibilityLabel={_providedAccessibilityLabel ?? undefined}
       accessibilityHint={
-        _providedAccessibilityHint
-          ? _providedAccessibilityHint
-          : `Tap to ${
-              typeof pressBehavior === 'string' ? pressBehavior : 'move'
-            } the Bottom Sheet`
+        _providedAccessibilityHint ? _providedAccessibilityHint : undefined
       }
     >
       {children}
