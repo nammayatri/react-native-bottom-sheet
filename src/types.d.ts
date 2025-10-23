@@ -92,6 +92,11 @@ export interface BottomSheetMethods {
    * @see {WithTimingConfig}
    */
   forceClose: (animationConfigs?: WithSpringConfig | WithTimingConfig) => void;
+  /**
+   * Get the current snap points array.
+   * @returns Array of snap point positions in pixels.
+   */
+  getSnapPoints: () => number[];
 }
 
 // biome-ignore lint/suspicious/noExplicitAny: Using 'any' allows users to define their own strict types for 'data' property.

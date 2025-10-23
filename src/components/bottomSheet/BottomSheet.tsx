@@ -1424,6 +1424,10 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
       collapse: handleCollapse,
       close: handleClose,
       forceClose: handleForceClose,
+      getSnapPoints: () => {
+        const { detents } = animatedDetentsState.get();
+        return detents || [];
+      },
     }));
     //#endregion
 
@@ -1504,6 +1508,10 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
         collapse: handleCollapse,
         close: handleClose,
         forceClose: handleForceClose,
+        getSnapPoints: () => {
+          const { detents } = animatedDetentsState.get();
+          return detents || [];
+        },
       }),
       [
         animatedIndex,
@@ -1514,6 +1522,7 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
         handleCollapse,
         handleClose,
         handleForceClose,
+        animatedDetentsState,
       ]
     );
     //#endregion

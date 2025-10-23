@@ -183,6 +183,9 @@ function BottomSheetModalComponent<T = any>(
     },
     []
   );
+  const handleGetSnapPoints: BottomSheetMethods['getSnapPoints'] = useCallback(() => {
+    return bottomSheetRef.current?.getSnapPoints() || [];
+  }, []);
   //#endregion
 
   //#region bottom sheet modal methods
@@ -424,6 +427,7 @@ function BottomSheetModalComponent<T = any>(
     collapse: handleCollapse,
     close: handleClose,
     forceClose: handleForceClose,
+    getSnapPoints: handleGetSnapPoints,
     // modal methods
     dismiss: handleDismiss,
     present: handlePresent,
