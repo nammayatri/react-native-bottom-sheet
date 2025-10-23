@@ -183,10 +183,13 @@ function BottomSheetModalComponent<T = any>(
     },
     []
   );
+  const handleGetSnapPoints: BottomSheetMethods['getSnapPoints'] =
+    useCallback(() => {
+      return bottomSheetRef.current?.getSnapPoints() || [];
+    }, []);
   //#endregion
 
   //#region bottom sheet modal methods
-  // biome-ignore lint/correctness/useExhaustiveDependencies(BottomSheetModal.name): used for debug only
   // biome-ignore lint/correctness/useExhaustiveDependencies(ref): ref is a stable object
   const handlePresent = useCallback(
     function handlePresent(_data?: T) {
@@ -213,7 +216,6 @@ function BottomSheetModalComponent<T = any>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [key, stackBehavior, mountSheet]
   );
-  // biome-ignore lint/correctness/useExhaustiveDependencies(BottomSheetModal.name): used for debug only
   const handleDismiss = useCallback<BottomSheetModalMethods['dismiss']>(
     function handleDismiss(animationConfigs) {
       if (__DEV__) {
@@ -287,7 +289,6 @@ function BottomSheetModalComponent<T = any>(
     },
     [index]
   );
-  // biome-ignore lint/correctness/useExhaustiveDependencies(BottomSheetModal.name): used for debug only
   const handleRestore = useCallback(function handleRestore() {
     if (__DEV__) {
       print({
@@ -346,7 +347,6 @@ function BottomSheetModalComponent<T = any>(
       render();
     }
   }, []);
-  // biome-ignore lint/correctness/useExhaustiveDependencies(BottomSheetModal.name): used for debug only
   const handleBottomSheetOnChange = useCallback(
     function handleBottomSheetOnChange(
       _index: number,
@@ -388,7 +388,6 @@ function BottomSheetModalComponent<T = any>(
     },
     [_providedOnAnimate]
   );
-  // biome-ignore lint/correctness/useExhaustiveDependencies(BottomSheetModal.name): used for debug only
   const handleBottomSheetOnClose = useCallback(
     function handleBottomSheetOnClose() {
       if (__DEV__) {
@@ -424,6 +423,7 @@ function BottomSheetModalComponent<T = any>(
     collapse: handleCollapse,
     close: handleClose,
     forceClose: handleForceClose,
+    getSnapPoints: handleGetSnapPoints,
     // modal methods
     dismiss: handleDismiss,
     present: handlePresent,
