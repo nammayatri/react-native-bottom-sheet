@@ -1,9 +1,4 @@
 export declare const styles: {
-    container: {
-        position: "absolute";
-        left: number;
-        top: number;
-        right: number;
-    };
+    container: {};
 };
 //# sourceMappingURL=styles.d.ts.map
