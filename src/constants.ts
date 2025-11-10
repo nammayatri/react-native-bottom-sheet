@@ -1,5 +1,4 @@
 import { Dimensions, Platform } from 'react-native';
-import type Animated from 'react-native-reanimated';
 import { Easing } from 'react-native-reanimated';
 
 const { height: WINDOW_HEIGHT, width: WINDOW_WIDTH } = Dimensions.get('window');
@@ -68,25 +67,23 @@ enum SNAP_POINT_TYPE {
   DYNAMIC = 1,
 }
 
-const ANIMATION_EASING: Animated.EasingFunction = Easing.out(Easing.exp);
-const ANIMATION_DURATION = 250;
+const ANIMATION_EASING = Easing.bezier(0.3, 0.1, 0.55, 1);
+const ANIMATION_DURATION = 270;
 
-const ANIMATION_CONFIGS_IOS = {
-  damping: 500,
-  stiffness: 1000,
-  mass: 3,
-  overshootClamping: true,
-  restDisplacementThreshold: 10,
-  restSpeedThreshold: 10,
-};
-
-const ANIMATION_CONFIGS_ANDROID = {
-  duration: ANIMATION_DURATION,
-  easing: ANIMATION_EASING,
-};
-
-const ANIMATION_CONFIGS =
-  Platform.OS === 'ios' ? ANIMATION_CONFIGS_IOS : ANIMATION_CONFIGS_ANDROID;
+const ANIMATION_CONFIGS = Platform.select({
+  default: {
+    duration: ANIMATION_DURATION,
+    easing: ANIMATION_EASING,
+  },
+  // default: {
+  //   damping: 500,
+  //   stiffness: 1000,
+  //   mass: 3,
+  //   overshootClamping: true,
+  //   restDisplacementThreshold: 10,
+  //   restSpeedThreshold: 10,
+  // },
+});
 
 const SCROLLABLE_DECELERATION_RATE_MAPPER = {
   [SCROLLABLE_STATE.UNDETERMINED]: 0,
