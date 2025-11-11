@@ -1,4 +1,3 @@
-import type Animated from 'react-native-reanimated';
 declare const WINDOW_HEIGHT: number, WINDOW_WIDTH: number;
 declare const SCREEN_HEIGHT: number, SCREEN_WIDTH: number;
 declare enum GESTURE_SOURCE {
@@ -55,18 +54,15 @@ declare enum SNAP_POINT_TYPE {
     PROVIDED = 0,
     DYNAMIC = 1
 }
-declare const ANIMATION_EASING: Animated.EasingFunction;
-declare const ANIMATION_DURATION = 250;
+declare const ANIMATION_EASING: {
+    factory: () => (x: number) => number;
+};
+declare const ANIMATION_DURATION = 270;
 declare const ANIMATION_CONFIGS: {
-    damping: number;
-    stiffness: number;
-    mass: number;
-    overshootClamping: boolean;
-    restDisplacementThreshold: number;
-    restSpeedThreshold: number;
-} | {
     duration: number;
-    easing: import("react-native-reanimated").EasingFunction;
+    easing: {
+        factory: () => (x: number) => number;
+    };
 };
 declare const SCROLLABLE_DECELERATION_RATE_MAPPER: {
     2: number;
