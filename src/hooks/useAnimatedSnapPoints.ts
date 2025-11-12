@@ -56,6 +56,9 @@ export const useAnimatedSnapPoints = (
 
     // return normalized snap points if dynamic sizing is not enabled
     if (!enableDynamicSizing) {
+      if (_normalizedSnapPoints.length === 0) {
+        _normalizedSnapPoints = [containerHeight.value];
+      }
       return _normalizedSnapPoints;
     }
 
@@ -70,14 +73,16 @@ export const useAnimatedSnapPoints = (
     }
 
     // calculate a new snap point based on content height.
-    const dynamicSnapPoint =
-      containerHeight.value -
-      Math.min(
-        contentHeight.value + handleHeight.value + footerHeight.value,
-        maxDynamicContentSize !== undefined
-          ? maxDynamicContentSize
-          : containerHeight.value
-      );
+    const cappedContentHeight = Math.min(
+      contentHeight.value + handleHeight.value + footerHeight.value,
+      maxDynamicContentSize !== undefined
+        ? maxDynamicContentSize
+        : containerHeight.value
+    );
+    let dynamicSnapPoint = containerHeight.value - cappedContentHeight;
+    if (dynamicSnapPoint === INITIAL_SNAP_POINT) {
+      dynamicSnapPoint = containerHeight.value;
+    }
 
     // push dynamic snap point into the normalized snap points,
     // only if it does not exists in the provided list already.
