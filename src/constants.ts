@@ -68,7 +68,7 @@ enum SNAP_POINT_TYPE {
 }
 
 const ANIMATION_EASING = Easing.bezier(0.3, 0.1, 0.55, 1);
-const ANIMATION_DURATION = 270;
+const ANIMATION_DURATION = 190;
 
 const ANIMATION_CONFIGS = Platform.select({
   default: {

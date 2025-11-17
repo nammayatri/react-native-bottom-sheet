@@ -57,7 +57,7 @@ declare enum SNAP_POINT_TYPE {
 declare const ANIMATION_EASING: {
     factory: () => (x: number) => number;
 };
-declare const ANIMATION_DURATION = 270;
+declare const ANIMATION_DURATION = 190;
 declare const ANIMATION_CONFIGS: {
     duration: number;
     easing: {
