@@ -14,6 +14,7 @@ export interface BottomSheetInternalContextType extends Partial<BottomSheetGestu
     animatedLayoutState: SharedValue<LayoutState>;
     animatedScrollableState: SharedValue<ScrollableState>;
     animatedScrollableStatus: SharedValue<SCROLLABLE_STATUS>;
+    animatedScrollableOverrideState: SharedValue<SCROLLABLE_STATUS>;
     animatedPosition: SharedValue<number>;
     animatedIndex: SharedValue<number>;
     animatedSheetHeight: SharedValue<number>;

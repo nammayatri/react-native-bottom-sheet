@@ -5,6 +5,7 @@ import type { AnimationState, KeyboardState, Scrollable, ScrollableRef, Scrollab
 export declare const useScrollable: (enableContentPanningGesture: boolean, animatedSheetState: SharedValue<SHEET_STATE>, animatedKeyboardState: SharedValue<KeyboardState>, animatedAnimationState: SharedValue<AnimationState>) => {
     state: SharedValue<ScrollableState>;
     status: import("react-native-reanimated").DerivedValue<SCROLLABLE_STATUS>;
+    overrideStatus: SharedValue<SCROLLABLE_STATUS>;
     setScrollableRef: (ref: ScrollableRef) => void;
     removeScrollableRef: (ref: RefObject<Scrollable>) => void;
 };

@@ -38,6 +38,9 @@ export const useScrollable = (
     contentOffsetY: 0,
     refreshable: false,
   });
+  const overrideStatus = useSharedValue<SCROLLABLE_STATUS>(
+    SCROLLABLE_STATUS.UNDETERMINED
+  );
   const status = useDerivedValue<SCROLLABLE_STATUS>(() => {
     /**
      * if user had disabled content panning gesture, then we unlock
@@ -45,6 +48,10 @@ export const useScrollable = (
      */
     if (!enableContentPanningGesture) {
       return SCROLLABLE_STATUS.UNLOCKED;
+    }
+
+    if (overrideStatus.value !== SCROLLABLE_STATUS.UNDETERMINED) {
+      return overrideStatus.value;
     }
 
     /**
@@ -79,6 +86,7 @@ export const useScrollable = (
     animatedSheetState,
     animatedKeyboardState,
     animatedAnimationState,
+    overrideStatus,
     state,
   ]);
   //#endregion
@@ -125,6 +133,7 @@ export const useScrollable = (
   return {
     state,
     status,
+    overrideStatus,
     setScrollableRef,
     removeScrollableRef,
   };

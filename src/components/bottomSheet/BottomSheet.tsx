@@ -352,6 +352,7 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
     const {
       state: animatedScrollableState,
       status: animatedScrollableStatus,
+      overrideStatus: animatedScrollableOverrideState,
       setScrollableRef,
       removeScrollableRef,
     } = useScrollable(
@@ -1456,6 +1457,7 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
         animatedSheetState,
         animatedScrollableState,
         animatedScrollableStatus,
+        animatedScrollableOverrideState,
         animatedContentGestureState,
         animatedHandleGestureState,
         animatedKeyboardState,
@@ -1490,6 +1492,7 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
         animatedSheetState,
         animatedScrollableState,
         animatedScrollableStatus,
+        animatedScrollableOverrideState,
         animatedDetentsState,
         isInTemporaryPosition,
         enableContentPanningGesture,
