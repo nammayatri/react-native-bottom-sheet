@@ -65,21 +65,13 @@ enum SNAP_POINT_TYPE {
   DYNAMIC = 1,
 }
 
-const ANIMATION_EASING = Easing.out(Easing.exp);
-const ANIMATION_DURATION = 250;
+const ANIMATION_EASING = Easing.bezier(0.3, 0.1, 0.55, 1);
+const ANIMATION_DURATION = 190;
 
 const ANIMATION_CONFIGS = Platform.select<TimingConfig | SpringConfig>({
-  android: {
+  default: {
     duration: ANIMATION_DURATION,
     easing: ANIMATION_EASING,
-  },
-  default: {
-    damping: 500,
-    stiffness: 1000,
-    mass: 3,
-    overshootClamping: true,
-    restDisplacementThreshold: 10,
-    restSpeedThreshold: 10,
   },
 });
 
