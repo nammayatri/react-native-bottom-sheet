@@ -1088,6 +1088,51 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
     //#endregion
 
     //#region public methods
+    const animateToDetentIndex = useCallback(
+      function animateToDetentIndex(
+        index: number | 'last',
+        animationConfigs?: WithSpringConfig | WithTimingConfig
+      ) {
+        'worklet';
+        const { detents } = animatedDetentsState.get();
+        if (detents === undefined || detents.length === 0) {
+          return;
+        }
+
+        const targetIndex = index === 'last' ? detents.length - 1 : index;
+        if (targetIndex >= detents.length) {
+          return;
+        }
+        const targetPosition = detents[targetIndex];
+
+        const { nextPosition, nextIndex, isForcedClosing } =
+          animatedAnimationState.get();
+        if (
+          !isLayoutCalculated.value ||
+          targetIndex === nextIndex ||
+          targetPosition === nextPosition ||
+          isForcedClosing
+        ) {
+          return;
+        }
+
+        isInTemporaryPosition.value = false;
+
+        animateToPosition(
+          targetPosition,
+          ANIMATION_SOURCE.USER,
+          0,
+          animationConfigs
+        );
+      },
+      [
+        animateToPosition,
+        isInTemporaryPosition,
+        isLayoutCalculated,
+        animatedDetentsState,
+        animatedAnimationState,
+      ]
+    );
     const handleSnapToIndex = useStableCallback(function handleSnapToIndex(
       index: number,
       animationConfigs?: WithSpringConfig | WithTimingConfig
@@ -1121,36 +1166,7 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
         });
       }
 
-      const targetPosition = detents[index];
-
-      /**
-       * exit method if :
-       * - layout is not calculated.
-       * - already animating to next position.
-       * - sheet is forced closing.
-       */
-      const { nextPosition, nextIndex, isForcedClosing } =
-        animatedAnimationState.get();
-      if (
-        !isLayoutCalculated.value ||
-        index === nextIndex ||
-        targetPosition === nextPosition ||
-        isForcedClosing
-      ) {
-        return;
-      }
-
-      /**
-       * reset temporary position boolean.
-       */
-      isInTemporaryPosition.value = false;
-
-      runOnUI(animateToPosition)(
-        targetPosition,
-        ANIMATION_SOURCE.USER,
-        0,
-        animationConfigs
-      );
+      runOnUI(animateToDetentIndex)(index, animationConfigs);
     });
     const handleSnapToPosition = useCallback(
       function handleSnapToPosition(
@@ -1333,50 +1349,9 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
           });
         }
 
-        const { detents } = animatedDetentsState.get();
-        if (detents === undefined || detents.length === 0) {
-          return;
-        }
-
-        const targetIndex = detents.length - 1;
-        const targetPosition = detents[targetIndex];
-
-        /**
-         * exit method if :
-         * - layout is not calculated.
-         * - already animating to next position.
-         * - sheet is forced closing.
-         */
-        const { nextPosition, nextIndex, isForcedClosing } =
-          animatedAnimationState.get();
-        if (
-          !isLayoutCalculated.value ||
-          targetIndex === nextIndex ||
-          targetPosition === nextPosition ||
-          isForcedClosing
-        ) {
-          return;
-        }
-
-        /**
-         * reset temporary position boolean.
-         */
-        isInTemporaryPosition.value = false;
-
-        runOnUI(animateToPosition)(
-          targetPosition,
-          ANIMATION_SOURCE.USER,
-          0,
-          animationConfigs
-        );
+        runOnUI(animateToDetentIndex)('last', animationConfigs);
       },
-      [
-        animateToPosition,
-        isInTemporaryPosition,
-        isLayoutCalculated,
-        animatedDetentsState,
-        animatedAnimationState,
-      ]
+      [animateToDetentIndex]
     );
     const handleCollapse = useCallback(
       function handleCollapse(

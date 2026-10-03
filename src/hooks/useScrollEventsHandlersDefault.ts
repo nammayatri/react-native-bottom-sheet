@@ -11,6 +11,28 @@ import { useBottomSheetInternal } from './useBottomSheetInternal';
 export type ScrollEventContextType = {
   initialContentOffsetY: number;
   shouldLockInitialPosition: boolean;
+  isPinning?: boolean;
+};
+
+const LOCK_TOLERANCE = 0.5;
+
+const holdScrollableAt = (
+  scrollableRef: Parameters<ScrollEventsHandlersHookType>[0],
+  currentY: number,
+  lockY: number,
+  context: ScrollEventContextType
+) => {
+  'worklet';
+  if (context.isPinning || Math.abs(currentY - lockY) < LOCK_TOLERANCE) {
+    return;
+  }
+  context.isPinning = true;
+  try {
+    // @ts-expect-error
+    scrollTo(scrollableRef, 0, lockY, false);
+  } finally {
+    context.isPinning = false;
+  }
 };
 
 export const useScrollEventsHandlersDefault: ScrollEventsHandlersHookType = (
@@ -55,8 +77,7 @@ export const useScrollEventsHandlersDefault: ScrollEventsHandlersHookType = (
           const lockPosition = context.shouldLockInitialPosition
             ? (context.initialContentOffsetY ?? 0)
             : 0;
-          // @ts-expect-error
-          scrollTo(scrollableRef, 0, lockPosition, false);
+          holdScrollableAt(scrollableRef, y, lockPosition, context);
           scrollableContentOffsetY.value = lockPosition;
           return;
         }
@@ -104,8 +125,7 @@ export const useScrollEventsHandlersDefault: ScrollEventsHandlersHookType = (
           const lockPosition = context.shouldLockInitialPosition
             ? (context.initialContentOffsetY ?? 0)
             : 0;
-          // @ts-expect-error
-          scrollTo(scrollableRef, 0, lockPosition, false);
+          holdScrollableAt(scrollableRef, y, lockPosition, context);
           scrollableContentOffsetY.value = lockPosition;
           return;
         }
@@ -134,8 +154,7 @@ export const useScrollEventsHandlersDefault: ScrollEventsHandlersHookType = (
           const lockPosition = context.shouldLockInitialPosition
             ? (context.initialContentOffsetY ?? 0)
             : 0;
-          // @ts-expect-error
-          scrollTo(scrollableRef, 0, lockPosition, false);
+          holdScrollableAt(scrollableRef, y, lockPosition, context);
           scrollableContentOffsetY.value = 0;
           return;
         }
