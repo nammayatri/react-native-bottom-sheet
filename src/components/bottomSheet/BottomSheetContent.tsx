@@ -3,7 +3,9 @@ import type { ViewProps, ViewStyle } from 'react-native';
 import Animated, {
   type AnimatedStyle,
   useAnimatedStyle,
+  useAnimatedReaction,
   useDerivedValue,
+  useSharedValue,
 } from 'react-native-reanimated';
 import {
   INITIAL_LAYOUT_VALUE,
@@ -179,6 +181,24 @@ function BottomSheetContentComponent({
   //#endregion
 
   //#region styles
+  const animatedMaskHeight = useSharedValue(0);
+  useAnimatedReaction(
+    () => animatedContentHeightMax.get() + (detached ? 0 : animatedPaddingBottom.get()),
+    height => {
+      if (height >= animatedMaskHeight.get()) {
+        animatedMaskHeight.set(height);
+        return;
+      }
+      animatedMaskHeight.set(
+        animate({
+          point: height,
+          configs: animationConfigs,
+          overrideReduceMotion,
+        })
+      );
+    },
+    [detached, animationConfigs, overrideReduceMotion]
+  );
   const contentMaskContainerAnimatedStyle = useAnimatedStyle(() => {
     const { containerHeight, contentHeight } = animatedLayoutState.get();
     /**
@@ -197,7 +217,6 @@ function BottomSheetContentComponent({
     }
 
     const paddingBottom = detached ? 0 : animatedPaddingBottom.get();
-    const height = animatedContentHeightMax.get() + paddingBottom;
 
     return {
       paddingBottom: animate({
@@ -205,21 +224,16 @@ function BottomSheetContentComponent({
         configs: animationConfigs,
         overrideReduceMotion,
       }),
-      height: animate({
-        point: height,
-        configs: animationConfigs,
-        overrideReduceMotion,
-      }),
+      height: animatedMaskHeight.get(),
     };
   }, [
-    overDragResistanceFactor,
     enableDynamicSizing,
     detached,
     animationConfigs,
     overrideReduceMotion,
     animatedLayoutState,
-    animatedContentHeightMax,
-    animatedLayoutState,
+    animatedPaddingBottom,
+    animatedMaskHeight,
   ]);
   const contentContainerStyle = useMemo(
     () => [
